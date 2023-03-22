@@ -1,20 +1,24 @@
-use std::fs;
+use std::time::Instant;
 
-use perfect_square_permutations::operations;
-
+pub mod files;
+pub mod lahc;
+pub mod operations;
 fn main() {
     println!("Hello, world!");
-    let content = fs::read_to_string(
-        "/home/phi/Documents/codes/rust/perfect-square-permutations/instances/instance_10000.dat",
-    )
-    .unwrap();
-    let file_values: Vec<i32> = content
-        .lines()
-        .nth(1)
-        .expect("Not two lines")
-        .trim()
-        .split(" ")
-        .map(|x| x.parse::<i32>().unwrap())
+    let files = files::all_instances(".");
+    let mut instances: Vec<(&String, Vec<i32>)> = files
+        .iter()
+        .map(|f| (f, files::generate_solution(f)))
         .collect();
-    println!("{:?}", file_values)
+    instances.sort_by_key(|e| e.1.len());
+    for (name, sol) in instances.iter() {
+        println!("{}", name);
+        let mut s = sol.clone();
+        let now = Instant::now();
+        let x = lahc::lahc(&mut s, 100);
+        println!("Best solution found is {}.", x);
+        let elapsed_time = now.elapsed();
+        println!("Took {} seconds.", elapsed_time.as_secs());
+    }
+    println!("{:?}", instances)
 }

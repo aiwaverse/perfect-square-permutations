@@ -1,5 +1,3 @@
-use std::vec;
-
 use num_integer::sqrt;
 use rand::Rng;
 
@@ -36,14 +34,16 @@ pub fn first_improvement_solution(solution: &mut Vec<i32>) {
 pub fn best_improvement_solution(solution: &mut Vec<i32>, limit: usize) {
     let mut best_val = count_perfect_squares(solution);
     let mut best_solution: Vec<i32> = Vec::new();
-    for i in 0..limit {
-        let n: usize = rand::thread_rng().gen_range(0..solution.len());
-        solution.swap(i, n);
+    for _ in 0..limit {
+        let n1: usize = rand::thread_rng().gen_range(0..solution.len());
+        let n2: usize = rand::thread_rng().gen_range(0..solution.len());
+        solution.swap(n1, n2);
         let new_val = count_perfect_squares(solution);
         if new_val > best_val {
             best_solution = solution.clone();
             best_val = new_val;
         }
+        solution.swap(n2, n1);
     }
     *solution = best_solution;
 }
