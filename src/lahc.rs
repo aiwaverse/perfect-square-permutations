@@ -11,8 +11,7 @@ pub fn lahc(solution: &mut Vec<i32>, max_size: usize) -> i32 {
         if i % 100 == 0 {
             println!("Iteration {}", i);
         }
-        operations::first_improvement_solution(solution);
-        let s_linha = operations::count_perfect_squares(solution);
+        let s_linha = operations::first_improvement_solution(solution);
         if s_linha > f[0] || s_linha > s {
             s = s_linha;
         }
