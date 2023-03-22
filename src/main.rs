@@ -4,7 +4,6 @@ pub mod files;
 pub mod lahc;
 pub mod operations;
 fn main() {
-    println!("Hello, world!");
     let files = files::all_instances(".");
     let mut instances: Vec<(&String, Vec<i32>)> = files
         .iter()
@@ -20,5 +19,4 @@ fn main() {
         let elapsed_time = now.elapsed();
         println!("Took {} seconds.", elapsed_time.as_secs());
     }
-    println!("{:?}", instances)
 }
